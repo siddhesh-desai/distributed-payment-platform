@@ -1,0 +1,25 @@
+---
+description: Learn-first — teach before code; learning/ is the source of truth
+alwaysApply: true
+---
+
+# Learn-first (this repo)
+
+Primary goal of this repo: **learn** HLD, LLD, microservices, production practices — not only ship features.
+
+## Before new code
+
+1. Read `learning/INDEX.md`
+2. List new concepts/tech/patterns/techniques this change introduces
+3. If not **taught**: teach in depth → gate on confirmation → then code
+4. After coding: write/update entry under `learning/{concepts,technologies,patterns,techniques}/` and INDEX
+5. Explain how the new code embodies what was taught
+
+## Paths
+
+- Index: `learning/INDEX.md`
+- Template: `learning/_template.md`
+
+Skip the gate only for mechanical changes with no new concepts, or when the user says they already know the topic.
+
+Follow skill `learn-first` for depth bar and anti-patterns. Repo agent entrypoint: `AGENTS.md`.
