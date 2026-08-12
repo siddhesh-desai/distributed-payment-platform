@@ -2,9 +2,11 @@
 
 > Agents: scan this table before introducing new concepts. Add a row when a topic is planned or taught. One slug = one topic.
 
-| Slug         | Category | Status | Entry | Code refs | Notes                               |
-| ------------ | -------- | ------ | ----- | --------- | ----------------------------------- |
-| _(none yet)_ | —        | —      | —     | —         | First lessons will land as we build |
+| Slug                               | Category     | Status | Entry                                                                                                      | Code refs                                     | Notes                                     |
+| ---------------------------------- | ------------ | ------ | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------------------------------------- |
+| monorepo-workspace-vs-orchestrator | concepts     | taught | [concepts/0001-monorepo-workspace-vs-orchestrator.md](concepts/0001-monorepo-workspace-vs-orchestrator.md) | `pyproject.toml`, `nx.json`, `apps/`, `libs/` | uv = workspace; Nx = orchestrator         |
+| uv-workspaces                      | technologies | taught | [technologies/0001-uv-workspaces.md](technologies/0001-uv-workspaces.md)                                   | `pyproject.toml`, `uv.lock`                   | members empty until apps/libs decided     |
+| nx-orchestrator                    | technologies | taught | [technologies/0002-nx-orchestrator.md](technologies/0002-nx-orchestrator.md)                               | `nx.json`, `package.json`                     | Targets call `uv run` when projects exist |
 
 ## Planned learning tracks (suggested order)
 

@@ -17,11 +17,27 @@ Skip the gate only for mechanical edits with no new concepts, or when the user s
 
 ## Spec-driven features
 
-Use Speckit skills (specify → clarify → plan → tasks → implement / converge / analyze) under `.cursor/skills/speckit-*`. Constitution: `.specify/memory/constitution.md`.
+Use Speckit skills under `.cursor/skills/speckit-*`:
+specify → clarify (as needed) → plan → tasks → analyze (recommended) → implement → converge (if gaps).
+
+Constitution: `.specify/memory/constitution.md` (v1.1+ includes learn-first, ADR gate, monorepo ADRs).
+
+Always apply alongside Speckit: **learn-first** and **ADR Proposed→accept→implement**. Repo conventions: `.cursor/rules/repo-conventions.mdc`.
 
 ## Architecture decisions
 
 Durable decisions go in `adr/` (see `.cursor/rules/adr.mdc`). Do not put tutorials in ADRs — those belong in `learning/`.
+
+### ADR → review → implement (required)
+
+For stack, layout, datastore, broker, or other durable choices:
+
+1. **Write** the ADR with status `Proposed` (teach first if the topic is new)
+2. **Stop** and wait for explicit human review / acceptance
+3. Mark the ADR `Accepted` only after confirmation
+4. **Then** implement code, path moves, and config that depend on it
+
+Never bundle “ADR + implementation” into one unconfirmed step. A yes to “shall we proceed?” on a lesson is not acceptance of an unwritten or unread ADR.
 
 ## Pointers
 

@@ -18,27 +18,27 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Language/Version**: [e.g., Python 3.12 via uv, TypeScript later or NEEDS CLARIFICATION]
 
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Primary Dependencies**: [e.g., FastAPI with uv or NEEDS CLARIFICATION]
 
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Storage**: [if applicable, e.g., PostgreSQL or N/A]
 
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
+**Testing**: [e.g., pytest via `nx test <project>` / `uv run pytest` or NEEDS CLARIFICATION]
 
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Target Platform**: [e.g., Linux server containers or NEEDS CLARIFICATION]
 
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
+**Project Type**: [e.g., backend service under apps/backend/, shared lib under libs/backend/ or NEEDS CLARIFICATION]
 
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Performance Goals**: [align with constitution IV budgets or NEEDS CLARIFICATION]
 
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
+**Constraints**: [domain-specific; must honor accepted ADRs and constitution or NEEDS CLARIFICATION]
 
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Scale/Scope**: [domain-specific or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 [Gates determined based on constitution file]
 
@@ -57,57 +57,37 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
+  Default monorepo layout for this Speckit setup. Replace placeholders with the
+  concrete apps/libs this feature touches. If accepted ADRs define a different
+  tree, follow those ADRs instead.
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+apps/
+  backend/
+    <service>/                 # one deployable Python service
+  frontend/
+    <app>/                     # when UI work is in scope
+      …
+libs/
+  backend/
+    <package>/                 # shared Python library
+  frontend/
+    <package>/                 # shared frontend package when needed
+      …
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Document the selected structure from accepted layout/tooling
+ADRs (typical: `apps/{backend,frontend}/`, `libs/{backend,frontend}/`). List which
+concrete service/lib folders this feature creates or changes.
 
 ## Complexity Tracking
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

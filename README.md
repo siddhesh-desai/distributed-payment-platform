@@ -4,16 +4,45 @@ PayFlow — a production-style distributed payment simulation for practicing hig
 
 ## Status
 
-Greenfield. Spec-driven process and decision records are in place; application services are not built yet.
+Greenfield. Spec-driven process, ADRs, and monorepo tooling (uv + Nx) are in place. Backend apps/libs are not chosen yet — layout folders are empty placeholders.
+
+## Monorepo tooling
+
+| Layer           | Tool              | Role                              |
+| --------------- | ----------------- | --------------------------------- |
+| Python packages | **uv workspaces** | Install, lock, link local libs    |
+| Orchestration   | **Nx**            | `test` / `lint` / graph / caching |
+
+### Bootstrap
+
+```bash
+uv sync --group dev
+npm install --registry=https://registry.npmjs.org/
+```
+
+### Common commands
+
+```bash
+uv sync --group dev
+nx graph
+# After apps/libs exist:
+# uv sync --all-packages --group dev
+# nx test <project>
+# nx run-many -t test
+```
 
 ## Repository layout
 
-| Path        | Purpose                                               |
-| ----------- | ----------------------------------------------------- |
-| `adr/`      | Architecture Decision Records                         |
-| `learning/` | Learning log (concepts taught while building)         |
-| `.specify/` | Speckit constitution, templates, and feature workflow |
-| `.cursor/`  | Cursor rules and skills for this repo                 |
+| Path             | Purpose                                               |
+| ---------------- | ----------------------------------------------------- |
+| `apps/backend/`  | Deployable backend services (TBD)                     |
+| `apps/frontend/` | Deployable frontend apps (TBD)                        |
+| `libs/backend/`  | Shared backend packages (TBD)                         |
+| `libs/frontend/` | Shared frontend packages (TBD)                        |
+| `adr/`           | Architecture Decision Records                         |
+| `learning/`      | Learning log (concepts taught while building)         |
+| `.specify/`      | Speckit constitution, templates, and feature workflow |
+| `.cursor/`       | Cursor rules and skills for this repo                 |
 
 ## Spec-driven development
 
@@ -21,7 +50,7 @@ Feature work follows Speckit: constitution → specify → plan → tasks → im
 
 ## Architecture decisions
 
-See `adr/` for accepted choices (e.g. Speckit over OpenSpec). New durable stack or consistency decisions should land as ADRs before large implementation.
+See `adr/` for accepted choices. New durable stack or consistency decisions: write ADR as **Proposed** → review/accept → then implement.
 
 ## Contributing (humans)
 

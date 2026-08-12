@@ -1,6 +1,27 @@
 # Environment variables
-.env 
+.env
 .envrc
 
 # Plans
 initial-idea.md
+
+# Python / uv
+.venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.ruff_cache/
+**/*.egg-info/
+dist/
+build/
+
+# Node / Nx
+node_modules/
+.nx/cache/
+.nx/workspace-data/
+*.tsbuildinfo
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/

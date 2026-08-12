@@ -1,18 +1,13 @@
 <!--
 Sync Impact Report
-- Version change: (unratified scaffold) → 1.0.0
-- Modified principles: placeholders → six concrete principles (see below)
-- Added sections:
-  - I. Code Quality, Organization & Readability
-  - II. Testing Standards
-  - III. User Experience Consistency
-  - IV. Performance Requirements
-  - V. Production Practices
-  - VI. Security & Payment Domain Correctness
-  - Quality Constraints
-  - Development Workflow & Quality Gates
-  - Governance (concrete rules, including no version bump for uncommitted drafts)
-- Removed sections: none (scaffold placeholders replaced)
+- Version change: 1.0.0 → 1.1.0
+- Modified principles: none (I–VI unchanged)
+- Modified sections:
+  - Development Workflow & Quality Gates — Speckit sequence, learn-first,
+    ADR Proposed→Accepted→implement, monorepo tooling/layout ADRs
+  - Quality Constraints — explicit deference to ADR-0002/0003 for stack/layout
+- Added sections: none
+- Removed sections: none
 - Follow-up TODOs: none
 -->
 
@@ -195,24 +190,37 @@ payment platform; sandbox status raises the bar for realism, not lowers it.
   security/correctness rules above.
 - Free/open-source or free-tier infrastructure is preferred when it does
   not compromise the principles.
+- Monorepo tooling and directory layout MUST follow accepted ADRs unless
+  superseded: uv workspaces + Nx orchestrator (ADR-0002); `apps/` and
+  `libs/` split by `backend`/`frontend` (ADR-0003). Plans and tasks MUST
+  place new code under those trees.
 
 ## Development Workflow & Quality Gates
 
-1. Spec-driven flow: specify → clarify (as needed) → plan → tasks →
-   implement for non-trivial features.
-2. Every PR MUST include tests for changed behavior and MUST pass lint,
-   type/format checks (where configured), and CI.
-3. Reviewers MUST verify principles I–VI relevant to the diff; payment-path
+1. Spec-driven flow for non-trivial features (Speckit skills):
+   specify → clarify (as needed) → plan → tasks → analyze (recommended) →
+   implement → converge (if gaps remain). Checklist / taskstoissues as needed.
+2. Learn-first (required alongside Speckit): before introducing unfamiliar
+   concepts, technologies, patterns, or techniques, follow
+   `.cursor/skills/learn-first/SKILL.md` — teach → gate on confirmation →
+   then code; update `learning/` + INDEX after coding. Speckit implement
+   MUST NOT skip this gate.
+3. Durable stack/layout/datastore/broker decisions: write ADR as
+   **Proposed** → explicit human accept → mark **Accepted** → only then
+   implement dependent code (see `.cursor/rules/adr.mdc` and `AGENTS.md`).
+4. Every PR MUST include tests for changed behavior and MUST pass lint,
+   type/format checks (where configured), and CI. Prefer `nx` targets that
+   shell into `uv run` for Python projects.
+5. Reviewers MUST verify principles I–VI relevant to the diff; payment-path
    and security-sensitive changes require explicit invariant review;
    structural reviews MUST reject procedural domain logic (I).
-4. Integration tests SHOULD accompany persistence, messaging, and contract
+6. Integration tests SHOULD accompany persistence, messaging, and contract
    changes; omission requires a written risk note.
-5. Performance-sensitive changes SHOULD include measurement (benchmark,
+7. Performance-sensitive changes SHOULD include measurement (benchmark,
    load snippet, or before/after metrics) against the budgets in IV.
-6. ADRs MUST live under `adr/` (conventions in
-   `.cursor/rules/adr.mdc`) and MUST document architecture
-   decisions that waive or specialize constitution defaults (timeouts,
-   budgets, delivery semantics).
+8. ADRs MUST live under `adr/` and MUST document architecture decisions
+   that waive or specialize constitution defaults (timeouts, budgets,
+   delivery semantics).
 
 ## Governance
 
@@ -242,4 +250,4 @@ drift is not allowed. Runtime guidance for agents and humans MUST align
 with this document; when guidance conflicts, this constitution wins until
 amended.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-11 | **Last Amended**: 2026-08-11
+**Version**: 1.1.0 | **Ratified**: 2026-08-11 | **Last Amended**: 2026-08-12

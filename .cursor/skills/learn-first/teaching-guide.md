@@ -30,7 +30,7 @@ category: patterns # concepts | technologies | patterns | techniques
 status: taught # planned | teaching | taught | needs-review
 taught_on: 2026-08-12
 code_refs:
-  - services/payments/src/...
+  - apps/backend/<service>/src/<package>/...
 related:
   - exactly-once-vs-at-least-once
   - transactional-outbox

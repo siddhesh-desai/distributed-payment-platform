@@ -7,7 +7,6 @@ metadata:
   source: "templates/commands/tasks.md"
 ---
 
-
 ## User Input
 
 ```text
@@ -19,6 +18,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 ## Pre-Execution Checks
 
 **Check for extension hooks (before tasks generation)**:
+
 - Check if `.specify/extensions.yml` exists in the project root.
 - If it exists, read it and look for entries under the `hooks.before_tasks` key
 - If the YAML cannot be parsed or is invalid, skip hook checking silently and continue normally
@@ -29,6 +29,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 - When constructing command invocations from hook command names, replace dots (`.`) with hyphens (`-`). For example, `speckit.git.commit` → `/speckit-git-commit`.
 - For each executable hook, output the following based on its `optional` flag:
   - **Optional hook** (`optional: true`):
+
     ```
     ## Extension Hooks
 
@@ -39,7 +40,9 @@ You **MUST** consider the user input before proceeding (if not empty).
     Prompt: {prompt}
     To execute: `/{command}`
     ```
+
   - **Mandatory hook** (`optional: false`):
+
     ```
     ## Extension Hooks
 
@@ -49,7 +52,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 
     Wait for the result of the hook command before proceeding to the Outline.
     ```
+
     After emitting the block above you MUST actually invoke the hook and wait for it to finish before continuing. Run it the same way you would run the command yourself in this agent/session (the invocation may differ from the literal `{command}` id shown above, e.g. a skills-mode agent runs it as `/skill:speckit-...` or `$speckit-...`). Emitting the block alone does not run the hook.
+
 - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
 ## Outline
@@ -91,6 +96,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 **You MUST complete this section before reporting completion to the user.**
 
 Check if `.specify/extensions.yml` exists in the project root.
+
 - If it does not exist, or no hooks are registered under `hooks.after_tasks`, skip to the Completion Report.
 - If it exists, read it and look for entries under the `hooks.after_tasks` key.
 - If the YAML cannot be parsed or is invalid, skip hook checking silently and continue to the Completion Report.
@@ -101,6 +107,7 @@ Check if `.specify/extensions.yml` exists in the project root.
 - When constructing command invocations from hook command names, replace dots (`.`) with hyphens (`-`). For example, `speckit.git.commit` → `/speckit-git-commit`.
 - For each executable hook, output the following based on its `optional` flag:
   - **Mandatory hook** (`optional: false`) — **You MUST emit `EXECUTE_COMMAND:` for each mandatory hook**:
+
     ```
     ## Extension Hooks
 
@@ -108,8 +115,11 @@ Check if `.specify/extensions.yml` exists in the project root.
     Executing: `/{command}`
     EXECUTE_COMMAND: {command}
     ```
+
     After emitting the block above you MUST actually invoke the hook and wait for it to finish before continuing. Run it the same way you would run the command yourself in this agent/session (the invocation may differ from the literal `{command}` id shown above, e.g. a skills-mode agent runs it as `/skill:speckit-...` or `$speckit-...`). Emitting the block alone does not run the hook.
+
   - **Optional hook** (`optional: true`):
+
     ```
     ## Extension Hooks
 
@@ -124,6 +134,7 @@ Check if `.specify/extensions.yml` exists in the project root.
 ## Completion Report
 
 Output path to generated tasks.md and summary:
+
 - Total task count
 - Task count per user story
 - Parallel opportunities identified
@@ -165,9 +176,12 @@ Every task MUST strictly follow this format:
 **Examples**:
 
 - ✅ CORRECT: `- [ ] T001 Create project structure per implementation plan`
-- ✅ CORRECT: `- [ ] T005 [P] Implement authentication middleware in src/middleware/auth.py`
-- ✅ CORRECT: `- [ ] T012 [P] [US1] Create User model in src/models/user.py`
-- ✅ CORRECT: `- [ ] T014 [US1] Implement UserService in src/services/user_service.py`
+- ✅ CORRECT: `- [ ] T005 [P] Implement authentication middleware in apps/backend/<service>/src/<package>/api/middleware/auth.py`
+- ✅ CORRECT: `- [ ] T012 [P] [US1] Create User in apps/backend/<service>/src/<package>/domain/user.py`
+- ✅ CORRECT: `- [ ] T014 [US1] Implement UserService in apps/backend/<service>/src/<package>/user_service.py`
+- ❌ WRONG: Paths that contradict accepted layout ADRs (e.g. inventing root `src/` / `services/` / `packages/` when ADRs define `apps/` + `libs/`)
+- ❌ WRONG: Missing task ID after checkbox
+- ❌ WRONG: Tasks that only say "implement authentication" without file path
 - ❌ WRONG: `- [ ] Create User model` (missing ID and Story label)
 - ❌ WRONG: `T001 [US1] Create model` (missing checkbox)
 - ❌ WRONG: `- [ ] [US1] Create User model` (missing Task ID)

@@ -24,9 +24,17 @@ adr/0002-use-postgresql-as-primary-store.md
 ## When to write
 
 - Datastore, broker, language, or major library choice/replacement
+- Repo layout / monorepo topology that other work will depend on
 - Delivery / consistency semantics (outbox, idempotency, retries)
 - Waiving or specializing a constitution default (timeouts, budgets, security shortcuts)
 - Any decision you expect to re-debate without written rationale
+
+## Workflow (agents)
+
+1. Draft ADR as **`Proposed`**
+2. Present it for human review — **do not implement** dependent code yet
+3. On explicit acceptance, set status to **`Accepted`**, then implement
+4. Never ship ADR + code in one step without that review gate
 
 ## Content rules
 
