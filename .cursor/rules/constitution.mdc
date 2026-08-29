@@ -1,0 +1,58 @@
+---
+description: PayFlow constitution — non-negotiable engineering principles
+alwaysApply: true
+---
+
+# PayFlow Constitution
+
+Highest authority for engineering practice. Wins on conflicts with informal preference. Amend this file in place when principles change (no version ceremony). Workflow, ADRs, and layout live in other rules/skills — do not duplicate them here.
+
+## I. Code quality & OO
+
+- Leave the codebase clearer; organize by bounded context / service boundary
+- Domain and app code MUST be object-oriented: encapsulated state, clear responsibilities, constructor DI, composition over inheritance
+- Ports (interfaces/ABCs) for persistence, messaging, providers; no hidden globals/service locators
+- Thin entrypoints only (main, route adapters, CLI shims) may be procedural — they delegate into objects
+- Naming reveals domain intent; one job per type/file; no dead or speculative code
+- CI enforces format/lint; reject god objects, magic numbers, procedural domain logic
+
+## II. Testing
+
+- PRs MUST include automated tests for changed behavior; tests MUST be deterministic and CI-runnable
+- Unit tests default for domain/validation; integration strongly encouraged for persistence, messaging, contracts (omit only with a written risk note)
+- Money-path / correctness-critical code MUST assert invariants, not only happy path
+- Fix or quarantine flaky tests with an owner
+
+## III. API UX consistency
+
+- Public HTTP APIs: stable shapes, predictable errors, uniform list semantics, documented status codes
+- Breaking contract changes MUST be versioned or explicitly migrated
+- Idempotency, correlation IDs, and auth failures behave consistently across services
+- Error bodies machine-readable and safe (no stacks/secrets); CLI/UI reuse API vocabulary later
+
+## IV. Performance
+
+- Measure; do not assume. Budget breaches block release unless an ADR waives with expiry
+- Defaults (nominal local/staging): health p99 ≤ 50 ms; reads ≤ 200 ms; writes ≤ 500 ms; ≥ 100 req/s without error-rate > 0.1%
+- Consumer lag alerts if > 60 s for > 5 consecutive minutes
+- Explicit timeouts on outbound calls (default ≤ 3 s unless ADR); no N+1 or unbounded lists; cache/async only if ledger/idempotency stay correct
+
+## V. Production practices
+
+- Health/readiness, structured JSON logs, metrics for latency/errors/lag
+- Secrets from env/secret manager only; containers with immutable tags in shared envs
+- Bounded backoff retries; poison messages to DLQ with replay context
+- Topology/store/contract changes include migration/rollback notes; close new observability gaps in the same change when feasible
+
+## VI. Security & payment correctness
+
+- Simulation only: no real money, no real PAN/CVV; fake fixtures only
+- AuthN/Z on non-public endpoints; validate/bound inputs; TLS in shared/deployed envs; never log secrets or full instruments; least privilege
+- Mutating payments idempotent under client keys; ledger double-entry (debits = credits); explicit status state machine (illegal transitions fail closed)
+- Exactly-once _effect_ under at-least-once delivery; no double-apply of fraud/refund/webhook side effects on retry
+- Temporary security/correctness shortcuts need an ADR + tracked removal date
+
+## Constraints
+
+- Prefer free/OSS or free-tier infra when it does not compromise the above
+- Stack/layout follow accepted ADRs (uv + Nx; `apps/` / `libs/` by backend/frontend) unless superseded

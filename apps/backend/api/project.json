@@ -1,0 +1,27 @@
+{
+  "name": "api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/backend/api",
+  "tags": ["scope:backend", "type:app"],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory apps/backend/api uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory apps/backend/api pytest"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory apps/backend/api ruff check ."
+      }
+    }
+  }
+}

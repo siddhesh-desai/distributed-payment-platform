@@ -9,7 +9,7 @@ dependencies = []
 package = false
 
 [tool.uv.workspace]
-members = []
+members = ["apps/backend/api"]
 
 [dependency-groups]
 dev = [
@@ -19,7 +19,7 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["apps/backend", "libs/backend"]
-pythonpath = []
+pythonpath = ["apps/backend/api"]
 
 [tool.ruff]
 target-version = "py312"
