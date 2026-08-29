@@ -2,7 +2,7 @@
 
 
 class HelloService:
+    """Greeting use case; construct and inject (same-module DI)."""
 
-    @staticmethod
-    def say_hello() -> str:
+    def say_hello(self) -> str:
         return "Hello, world"

@@ -13,6 +13,10 @@ Authoritative rules: [`adr/0004-backend-api-domain-modules.md`](../../../adr/000
 | How are HTTP routes composed?    | Only via `core/router_registry.py` including each module’s `routes/registry.py` |
 | Sibling/ops apps (e.g. Grafana)? | Deferred — not under `apps/backend/` for this feature                           |
 
+## Deferred (scaffold)
+
+Ops/auth/error envelope (structured JSON logs, metrics, readiness, uniform error bodies, AuthN/Z) are deferred until the first real domain lands. Soft `GET /health` is process-level only.
+
 ## Run / test
 
 ```bash

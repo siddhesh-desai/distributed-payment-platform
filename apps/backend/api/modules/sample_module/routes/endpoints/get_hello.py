@@ -10,5 +10,5 @@ router = APIRouter()
 
 @router.get("/hello", response_model=HelloResponse)
 def get_hello() -> HelloResponse:
-    service_msg = HelloService.say_hello()
-    return HelloResponse(message=service_msg, module="sample_module")
+    service = HelloService()
+    return HelloResponse(message=service.say_hello(), module="sample_module")

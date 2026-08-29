@@ -36,8 +36,8 @@ Without layering, endpoints grow DB calls and business rules; other modules impo
 
 Hello path today:
 
-1. `routes/endpoints/get_hello.py` — HTTP adapter
-2. `services/hello_service.py` — greeting logic
+1. `routes/endpoints/get_hello.py` — HTTP adapter; constructs `HelloService`
+2. `services/hello_service.py` — greeting logic (instance method)
 3. `routes/outputs/hello_output.py` — response schema ≠ table model
 
 Unused layers stay as folders + `.gitkeep` until needed (no fake DB).
@@ -61,8 +61,8 @@ Do not put business rules in route handlers or Pydantic schemas. Do not share OR
 
 ## Code in this repo
 
-`sample_module` hello implements routes + services; other layers are empty placeholders matching ADR-0004.
+`sample_module` hello implements routes + services: the endpoint constructs `HelloService()` and calls `say_hello()` (same-module constructor DI). Other layers are empty placeholders matching ADR-0004.
 
 ## Further practice (optional)
 
-Add a second endpoint that injects `HelloService` via a constructor-friendly factory (still same module).
+Add a second same-module service and inject it into `HelloService` via the constructor.
