@@ -24,9 +24,8 @@ Problem it solves; what fails without it.
 
 Mental model. Diagrams welcome.
 
-```mermaid
-flowchart LR
-  A[Client] --> B[Component]
+```text
+Client --> Component
 ```
 
 ## Where it fits (HLD / LLD)

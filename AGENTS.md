@@ -15,14 +15,16 @@ This repo is a **learning-first** distributed payments platform (PayFlow). Prefe
 
 Skip the gate only for mechanical edits with no new concepts, or when the user says they already know the topic.
 
-## Spec-driven features
+## Lean development flow
 
-Use Speckit skills under `.cursor/skills/speckit-*`:
-specify → clarify (as needed) → plan → tasks → analyze (recommended) → implement → converge (if gaps).
+Default path (no mandatory feature spec/plan/tasks artifacts):
 
-Constitution: `.specify/memory/constitution.md` (v1.1+ includes learn-first, ADR gate, monorepo ADRs).
+1. Scan `learning/INDEX.md` → teach and gate on new topics
+2. If durable decision: ADR **Proposed** → human accept → **Accepted**
+3. Implement (use Plan mode or equivalent only when large or ambiguous)
+4. Update `learning/` + INDEX; explain how code maps to the lesson
 
-Always apply alongside Speckit: **learn-first** and **ADR Proposed→accept→implement**. Repo conventions: `.cursor/rules/repo-conventions.mdc`.
+Details: `.cursor/skills/dev-workflow/SKILL.md`. Constitution and quality gates: `.cursor/rules/constitution.mdc`. Repo layout/tooling: `.cursor/rules/repo-conventions.mdc`.
 
 ## Architecture decisions
 
@@ -41,10 +43,11 @@ Never bundle “ADR + implementation” into one unconfirmed step. A yes to “s
 
 ## Pointers
 
-| Concern      | Location          |
-| ------------ | ----------------- |
-| Learning log | `learning/`       |
-| ADRs         | `adr/`            |
-| Agent rules  | `.cursor/rules/`  |
-| Agent skills | `.cursor/skills/` |
-| Speckit      | `.specify/`       |
+| Concern          | Location                            |
+| ---------------- | ----------------------------------- |
+| Learning log     | `learning/`                         |
+| ADRs             | `adr/`                              |
+| Constitution     | `.cursor/rules/constitution.mdc`    |
+| Agent rules      | `.cursor/rules/`                    |
+| Agent skills     | `.cursor/skills/`                   |
+| Pre-merge review | `.cursor/skills/pr-review/SKILL.md` |

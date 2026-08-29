@@ -1,6 +1,6 @@
 # ADR-0001: Choose Spec Kit over OpenSpec
 
-- **Status:** Accepted
+- **Status:** Superseded by [0005](0005-abandon-speckit-use-cursor-skills-rules.md)
 - **Date:** 2026-08-11
 - **Deciders:** Siddhesh Desai
 

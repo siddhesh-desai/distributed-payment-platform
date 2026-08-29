@@ -4,7 +4,7 @@ PayFlow — a production-style distributed payment simulation for practicing hig
 
 ## Status
 
-Greenfield. Spec-driven process, ADRs, and monorepo tooling (uv + Nx) are in place. Backend apps/libs are not chosen yet — layout folders are empty placeholders.
+Greenfield. Learn-first process, ADRs, agent rules/skills, and monorepo tooling (uv + Nx) are in place. Backend API module layout is underway under `apps/backend/api/`.
 
 ## Monorepo tooling
 
@@ -33,20 +33,22 @@ nx graph
 
 ## Repository layout
 
-| Path             | Purpose                                               |
-| ---------------- | ----------------------------------------------------- |
-| `apps/backend/`  | Deployable backend services (TBD)                     |
-| `apps/frontend/` | Deployable frontend apps (TBD)                        |
-| `libs/backend/`  | Shared backend packages (TBD)                         |
-| `libs/frontend/` | Shared frontend packages (TBD)                        |
-| `adr/`           | Architecture Decision Records                         |
-| `learning/`      | Learning log (concepts taught while building)         |
-| `.specify/`      | Speckit constitution, templates, and feature workflow |
-| `.cursor/`       | Cursor rules and skills for this repo                 |
+| Path             | Purpose                                       |
+| ---------------- | --------------------------------------------- |
+| `apps/backend/`  | Deployable backend services                   |
+| `apps/frontend/` | Deployable frontend apps (TBD)                |
+| `libs/backend/`  | Shared backend packages (TBD)                 |
+| `libs/frontend/` | Shared frontend packages (TBD)                |
+| `adr/`           | Architecture Decision Records                 |
+| `learning/`      | Learning log (concepts taught while building) |
+| `.cursor/`       | Agent rules and skills for this repo          |
 
-## Spec-driven development
+## How we work
 
-Feature work follows Speckit: constitution → specify → plan → tasks → implement. Governance lives in `.specify/memory/constitution.md`.
+- **Learn-first**: teach unfamiliar topics → confirm → implement → log in `learning/`
+- **ADRs**: durable stack/layout/consistency decisions under `adr/` (Proposed → accept → implement)
+- **Constitution**: engineering principles in `.cursor/rules/constitution.mdc`
+- **Lean flow**: no mandatory Speckit feature artifacts; Plan mode (or equivalent) when work is large or ambiguous
 
 ## Architecture decisions
 

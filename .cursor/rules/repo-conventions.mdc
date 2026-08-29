@@ -1,30 +1,33 @@
 ---
-description: Monorepo + Speckit alignment (layout, package manager/orchestrator, learn-first, ADR gates)
+description: Monorepo conventions — layout, tooling, learn-first, ADR gates
 alwaysApply: true
 ---
 
-# Repo conventions (Speckit + learning monorepo)
+# Repo conventions (learning monorepo)
 
-Reusable defaults for a Speckit-driven, learn-first monorepo.
+Lean defaults for a learn-first monorepo governed by agent rules and skills.
 
 ## Feature work
 
-Use Speckit skills: specify → clarify (as needed) → plan → tasks → analyze (recommended) → implement → converge (if needed).
+1. Learn-first: teach → confirm → implement → log (`.cursor/skills/learn-first/SKILL.md`)
+2. ADR when the change is durable (stack, layout, datastore, broker, consistency): Proposed → accept → then code
+3. Implement directly for small/clear work; use Plan mode (or equivalent) when large or ambiguous
+4. Follow `.cursor/skills/dev-workflow/SKILL.md` for when to teach vs ADR vs plan vs just code
 
-## Always with Speckit
+Do **not** recreate Speckit `spec.md` / `plan.md` / `tasks.md` trees unless a future optional skill explicitly asks for them.
 
-- **Learn-first**: `.cursor/skills/learn-first/SKILL.md` + `learning/INDEX.md` — teach → confirm → code → log
+## Always apply
+
+- **Learn-first**: `.cursor/skills/learn-first/SKILL.md` + `learning/INDEX.md`
 - **ADR**: Proposed → explicit accept → Accepted → then dependent code (`.cursor/rules/adr.mdc`)
-- **Constitution**: `.specify/memory/constitution.md` wins on conflicts
+- **Constitution**: `.cursor/rules/constitution.mdc` wins on conflicts
 
 ## Layout & tooling
 
-Follow **accepted** ADRs (and constitution) for package manager, orchestrator, and directory layout. Typical pattern this setup assumes:
+Follow **accepted** ADRs for package manager, orchestrator, and directory layout:
 
 - Deployables under `apps/{backend,frontend}/`, shared code under `libs/{backend,frontend}/`
 - Python: workspace/package manager owns deps; Nx (or equivalent) orchestrates targets that shell into that tool
 - Do not invent conflicting top-level trees when an accepted layout ADR already defines one
 
-## Plans & tasks
-
-Fill plan/tasks from `.specify/templates/`. Prefer concrete paths under the layout ADRs (e.g. `apps/backend/<service>/…`, `libs/backend/<package>/…`).
+Prefer concrete paths under those ADRs (e.g. `apps/backend/<service>/…`, `libs/backend/<package>/…`).
