@@ -1,0 +1,47 @@
+---
+description: Python import conventions (order, TYPE_CHECKING, package API)
+globs: **/*.py
+alwaysApply: false
+---
+
+# Python imports
+
+## Order
+
+Ruff `I` (isort) is source of truth. Groups: stdlib → third-party → first-party (`payflow_common`, `core`, `modules`, `main`). No unused or wildcard imports.
+
+## Package API
+
+Prefer package imports over leaf modules:
+
+```python
+from modules.sample_module.models import SampleItem  # good
+from modules.sample_module.models.sample_item import SampleItem  # avoid
+```
+
+In package `__init__.py`, re-export with relatives + `__all__`:
+
+```python
+from .sample_item_repository import SampleItemRepository
+
+__all__ = ["SampleItemRepository"]
+```
+
+Elsewhere: absolute package imports. Don’t import from your own package `__init__` in a way that causes cycles.
+
+## Type-only imports
+
+```python
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy.orm import Mapped, mapped_column  # runtime
+
+if TYPE_CHECKING:
+    from sqlalchemy.orm import Session  # annotations only
+```
+
+- Annotation-only → `TYPE_CHECKING` + `from __future__ import annotations`
+- Runtime use (`select`, `Depends`, `mapped_column`, …) → normal import
+- ORM `Mapped` stays runtime; skip empty `TYPE_CHECKING` blocks

@@ -1,0 +1,42 @@
+{
+  "name": "workspace",
+  "$schema": "./node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "targets": {
+    "lock": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv lock",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv sync --all-packages --group dev",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "compose-up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose up --build",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "compose-postgres": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose up postgres -d",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "compose-down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose down",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

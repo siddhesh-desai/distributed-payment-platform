@@ -1,0 +1,30 @@
+{
+  "name": "payflow_common",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/backend/payflow_common/payflow_common",
+  "tags": ["scope:backend", "type:lib"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory libs/backend/payflow_common pytest",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory libs/backend/payflow_common ruff check .",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "fmt": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory libs/backend/payflow_common ruff format .",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

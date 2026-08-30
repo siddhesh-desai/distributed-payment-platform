@@ -17,16 +17,45 @@ Authoritative rules: [`adr/0004-backend-api-domain-modules.md`](../../../adr/000
 
 Ops/auth/error envelope (structured JSON logs, metrics, readiness, uniform error bodies, AuthN/Z) are deferred until the first real domain lands. Soft `GET /health` is process-level only.
 
-## Run / test
+## Local stack (Docker Compose)
+
+From repo root (Postgres on host **5433** so a Mac Postgres on 5432 is untouched):
 
 ```bash
-# from repo root
+cp -n .env.example .env
+# Edit .env: set POSTGRES_PASSWORD to a local-only value (required; never commit .env).
+docker compose up --build
+```
+
+- API: http://localhost:8000  
+- Sample DB read: `GET /sample/items`  
+- Health: `GET /health` (liveness only; DB readiness / structured logs / metrics deferred)
+
+Compose runs migrations (`alembic -c core/alembic/alembic.ini upgrade heads`) then uvicorn. See ADRs 0006–0008.
+
+## Host-run API (escape hatch)
+
+```bash
+# from repo root — Postgres via Compose only
+cp -n .env.example .env   # then set POSTGRES_PASSWORD in .env
+docker compose up postgres -d
 uv sync
+# Host API talks to localhost:5433 — set POSTGRES_HOST=localhost POSTGRES_PORT=5433 in .env (or export).
+nx run api:migrate
 uv run --directory apps/backend/api uvicorn main:app --reload --port 8000
 # or: nx serve api
+```
 
+## Test / lint / migrations
+
+```bash
 nx test api
 nx lint api
+# Write revision files (autogenerate against live DB) — review before apply.
+# Use zero-padded --rev-id so files sort as 0001_*, 0002_*, …:
+nx run api:makemigrations -- --rev-id 0002 -m "describe change"
+# Apply pending revisions to the database:
+nx run api:migrate
 ```
 
 ## SC-010 decision drill (layout rules)

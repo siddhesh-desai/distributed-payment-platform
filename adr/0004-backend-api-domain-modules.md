@@ -1,6 +1,6 @@
 # ADR-0004: Backend API domain modules layout
 
-- **Status:** Accepted
+- **Status:** Accepted (amended by [ADR-0010](0010-domain-module-call-path-facades-and-naming.md) for call path, `public/facades`, naming, and no `services/inputs|outputs`)
 - **Date:** 2026-08-12
 - **Deciders:** Siddhesh Desai
 
@@ -11,13 +11,13 @@ ADR-0003 defines `apps/` + `libs/` by stack but not how a single product HTTP AP
 ## Decision
 
 1. Place the product HTTP API at **`apps/backend/api`** as a **flat** project root (`main.py`, `core/`, `modules/`—no `src/` wrapper); it is the only product API process in Phase 1.
-2. Place business domains as **modules inside that app** (`modules/<name>/`) with layers **routes → services → models → repositories → migrations → clients → public → tests** (see Folder structure). **`models/`** = table/persistence **data shapes only (no business logic)**. **`services/`** = **all business logic** and orchestration, implemented as **classes**. Under **`routes/`**: `inputs/`, `outputs/`, `endpoints/` (one file each), plus root **`registry.py`** to combine routers for `core`—API schemas are **not** the same types as `models/`. Same-module services collaborate via **constructor injection**. Cross-module calls go only through **`public/`** (`inputs/`, `outputs/`, `facets/` — one file each) or `core` orchestration. This specializes constitution Principle I’s “rich domain objects” for Phase 1: behavior lives in service classes rather than on model types.
+2. Place business domains as **modules inside that app** (`modules/<name>/`) with layers **routes → services → models → repositories → migrations → clients → public → tests** (see Folder structure). **`models/`** = table/persistence **data shapes only (no business logic)**. **Call path, facades, use-case services, and naming** are defined by **[ADR-0010](0010-domain-module-call-path-facades-and-naming.md)** (routes → `public/facades` → use-case services → repositories → models; no `services/inputs|outputs`). Under **`routes/`**: `requests/`, `responses/`, `endpoints/` (one file each), plus root **`registry.py`** to combine routers for `core`—HTTP schemas are **not** the same types as `models/`. Cross-module calls go only through **`public/`** (`facades/`, optional `inputs/` / `outputs/`) or `core` orchestration. This specializes constitution Principle I’s “rich domain objects” for Phase 1: behavior lives in service classes rather than on model types.
 3. Register domain HTTP routers at one **`core`** wiring point.
-4. Add **`libs/backend` packages only** for external-service clients reused in multiple places; otherwise keep `libs/backend` reserved (e.g. `.gitkeep`).
+4. Add **`libs/backend` packages** for (a) external-service clients reused in multiple places, and (b) small shared backend infrastructure (ORM base/mixins, etc.) per **ADR-0009**. Domain business logic stays in `apps/…/modules/`, not in libs.
 5. **Defer** scaffolding sibling/ops apps (e.g. observability); when added later they belong under `apps/` per ADR-0003, not inside API domain modules.
 6. Keep **schema migrations per module** under `modules/<name>/migrations/`; an app-level runner may discover them. Do not use one shared migrations folder as the ownership model for all domains.
-7. Keep **tests per module** under `modules/<name>/tests/`, mirroring testable layers (endpoints, services, repositories, clients, public facets). Do not require dedicated tests for models, migrations, or input/output schema files. Thin `api/tests/` only for core wiring.
-8. Treat **this ADR** (plus the feature spec’s Domain Design Rules) as the source of truth for create-vs-extend, inter-domain communication, layering, and paths—**no separate `docs/backend-layout.md`**.
+7. Keep **tests per module** under `modules/<name>/tests/`, mirroring testable layers (endpoints, services, repositories, clients, public facades). Do not require dedicated tests for models, migrations, or input/output schema files. Do **not** keep an app-root `api/tests/` tree for `core/` or process wiring.
+8. Treat **this ADR + ADR-0010** as the source of truth for create-vs-extend, inter-domain communication, layering, and paths—**no separate `docs/backend-layout.md`**.
 
 ## Folder structure
 
@@ -32,10 +32,10 @@ apps/backend/api/                         # flat project root (uv + Nx)
     <name>/                               # e.g. sample_module
       routes/
         registry.py
-        inputs/                           # one input Pydantic per file
-        outputs/                          # one output Pydantic per file
+        requests/                         # one HTTP request body schema per file
+        responses/                        # one HTTP response schema per file
         endpoints/                        # one endpoint per file
-      services/                           # one service class per file; same-module DI
+      services/                           # one use-case service class per file (ADR-0010)
       models/                             # table shapes only (no business logic)
       repositories/                       # DB access only
       migrations/                         # this module’s schema only
@@ -43,16 +43,15 @@ apps/backend/api/                         # flat project root (uv + Nx)
       public/
         inputs/                           # public I/O (≠ route schemas ≠ models)
         outputs/
-        facets/                           # one cross-module facet per file
+        facades/                          # published API (see ADR-0010; was facets)
       tests/                              # this module only
         routes/endpoints/
         services/
         repositories/
         clients/
-        public/facets/
-        # no dedicated tests for models/, migrations/, or */inputs|outputs
-  tests/                                  # core/app wiring only
-libs/backend/                             # .gitkeep until multi-place external client
+        public/facades/
+        # no dedicated tests for models/, migrations/, or schema-only folders
+libs/backend/                             # shared packages (clients + infra; ADR-0009)
 ```
 
 Empty reserved folders use `.gitkeep`. Sibling/ops apps under `apps/backend/` are deferred.
@@ -104,7 +103,7 @@ Rejected for Phase 1 per product owner: models decide tables/shapes only; busine
 
 ### Single `public.py` facade file
 
-Rejected: use `public/` with `inputs/`, `outputs/`, `facets/`.
+Rejected: use `public/` with `facades/` (and optional `inputs/` / `outputs/`); see ADR-0010.
 
 ### Single app-level `migrations/` ownership for all domains
 

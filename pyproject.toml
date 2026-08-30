@@ -9,7 +9,7 @@ dependencies = []
 package = false
 
 [tool.uv.workspace]
-members = ["apps/backend/api"]
+members = ["apps/backend/api", "libs/backend/payflow_common"]
 
 [dependency-groups]
 dev = [
@@ -23,8 +23,15 @@ pythonpath = ["apps/backend/api"]
 
 [tool.ruff]
 target-version = "py312"
-line-length = 100
+line-length = 88
 src = ["apps/backend", "libs/backend"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["payflow_common", "core", "modules", "main"]

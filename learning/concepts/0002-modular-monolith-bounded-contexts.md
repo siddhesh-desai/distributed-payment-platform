@@ -43,7 +43,7 @@ sample_module  (+ future modules…)
 ```
 
 - One HTTP process: `apps/backend/api`
-- Domains: `modules/<name>/`
+- Domains live under `modules/<name>/` and import as `modules.<name>` (e.g. `modules.sample_module`).
 - Create vs extend: same capability → extend; new capability/language → new module
 
 ## Where it fits (HLD / LLD)

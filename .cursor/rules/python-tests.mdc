@@ -1,0 +1,71 @@
+---
+description: Python test conventions — layout, module docstring use-case list
+globs: **/tests/**/*.py, **/test_*.py, libs/backend/**/*.py, apps/backend/**/tests/**/*.py
+alwaysApply: false
+---
+
+# Python tests
+
+Single rule for all Python test conventions in this repo.
+
+## Layout (mirror source)
+
+Tests live under a top-level `tests/` directory and **mirror paths relative to the package root** — do **not** repeat the installable package folder name under `tests/`.
+
+### Libs (`libs/backend/<pkg>/`)
+
+```text
+libs/backend/payflow_common/
+  payflow_common/models/base.py
+  payflow_common/models/mixins/id_model_mixin.py
+  tests/models/test_base.py
+  tests/models/mixins/test_id_model_mixin.py
+```
+
+Rule: `tests/<path-inside-package>/test_<module>.py`  
+Not: `tests/payflow_common/models/...`
+
+### App domain modules (`apps/backend/api/modules/<name>/`)
+
+Same idea (ADR-0004) — mirror layers under `tests/` without an extra module-name prefix:
+
+```text
+modules/sample_module/services/hello_service.py
+modules/sample_module/tests/services/test_hello_service.py
+```
+
+### Do
+
+- One test module per source module when practical (`test_<stem>.py`)
+- Keep nested folders in sync when adding new source packages
+- Keep tests as a sibling of the package (`tests/`), not inside the installable tree
+
+### Do not
+
+- Nest `tests/<package_name>/...` when `<package_name>` is already the lib’s import root
+- Dump all tests flat in `tests/` when the package has nested packages
+- Keep an `apps/backend/api/tests/` tree for `core/` or app wiring — API tests live only under `modules/<name>/tests/` (ADR-0004)
+
+## Module docstring (business use cases)
+
+Every Python test module’s **module docstring** must list the **business use cases** covered in that file as a **bullet list** — not test function names.
+
+```python
+"""Short optional summary of the subject under test.
+
+- Returns UUID primary key column named id
+- Composes with OrmBaseModel for mapped tables
+"""
+```
+
+- First line(s) may briefly name the subject (optional but preferred)
+- Then one bullet per use case / behavior the file asserts, in plain language
+- Prefer domain/outcome phrasing (“lists sample items from the repository”) over implementation detail (“calls list_all”)
+- Keep bullets aligned with the tests in file order (one bullet per test is typical; split only when a single test covers distinct cases)
+- Update the docstring whenever coverage changes
+
+### Do not
+
+- List `test_*` function names as the bullets
+- Omit the list when the file has only one test
+- Use prose paragraphs instead of bullets for the coverage list

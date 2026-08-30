@@ -2,13 +2,15 @@
 
 from fastapi import APIRouter
 
-from modules.sample_module.routes.outputs.hello_output import HelloResponse
-from modules.sample_module.services.hello_service import HelloService
+from modules.sample_module.public.facades import HelloFacade
+from modules.sample_module.routes.responses import HelloResponse
 
 router = APIRouter()
 
 
 @router.get("/hello", response_model=HelloResponse)
 def get_hello() -> HelloResponse:
-    service = HelloService()
-    return HelloResponse(message=service.say_hello(), module="sample_module")
+    return HelloResponse(
+        message=HelloFacade.say_hello(),
+        module="sample_module",
+    )

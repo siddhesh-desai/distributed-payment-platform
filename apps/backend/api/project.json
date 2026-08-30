@@ -22,6 +22,31 @@
       "options": {
         "command": "uv run --directory apps/backend/api ruff check ."
       }
+    },
+    "fmt": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory apps/backend/api ruff format ."
+      }
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose build api",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory apps/backend/api alembic -c core/alembic/alembic.ini upgrade heads"
+      }
+    },
+    "makemigrations": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run --directory apps/backend/api alembic -c core/alembic/alembic.ini revision --autogenerate"
+      }
     }
   }
 }
