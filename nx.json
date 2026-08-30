@@ -23,6 +23,10 @@
     "lint": {
       "cache": true,
       "inputs": ["python", "^python"]
+    },
+    "fmt": {
+      "cache": true,
+      "inputs": ["python", "^python"]
     }
   },
   "analytics": false

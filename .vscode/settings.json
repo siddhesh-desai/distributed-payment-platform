@@ -1,0 +1,16 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    },
+    "editor.formatOnSaveMode": "file"
+  },
+  "python.analysis.extraPaths": ["apps/backend/api"],
+  "ruff.enable": true,
+  "ruff.organizeImports": true,
+  "ruff.importStrategy": "fromEnvironment",
+  "ruff.nativeServer": "on"
+}

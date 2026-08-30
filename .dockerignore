@@ -1,0 +1,42 @@
+# Build context is repo root. API image needs:
+#   pyproject.toml, uv.lock, apps/backend/api/, libs/backend/
+# (uv workspace members required for `uv sync --package payflow-api`)
+# Ignore the rest so context stays small and non-runtime files never ship.
+
+# VCS / editor / agent
+.git
+.cursor
+.vscode
+.idea
+.specify
+
+# Docs / learning / decisions (not runtime)
+*.md
+!apps/backend/api/README.md
+adr
+learning
+docs
+
+# Local secrets / env
+.env
+.env.*
+!.env.example
+.envrc
+
+# Python / Node / Nx local artifacts
+.venv
+node_modules
+.nx
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.ruff_cache
+**/*.egg-info
+dist
+build
+coverage
+htmlcov
+
+# Host / OS junk
+.DS_Store
+Thumbs.db

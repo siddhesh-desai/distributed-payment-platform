@@ -1,4 +1,9 @@
-from modules.sample_module.services.hello_service import HelloService
+"""HelloService unit tests.
+
+- Says hello with the sample greeting message
+"""
+
+from modules.sample_module.services import HelloService
 
 
 def test_say_hello() -> None:

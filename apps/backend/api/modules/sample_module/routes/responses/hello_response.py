@@ -1,4 +1,4 @@
-"""HTTP response schemas for sample_module routes (not table models)."""
+"""HTTP response schemas for sample_module hello routes (not table models)."""
 
 from pydantic import BaseModel, Field
 

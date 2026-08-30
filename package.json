@@ -5,8 +5,15 @@
   "description": "PayFlow monorepo",
   "scripts": {
     "graph": "nx graph",
+    "lock": "nx run workspace:lock",
+    "sync": "nx run workspace:sync",
     "test": "nx run-many -t test",
-    "lint": "nx run-many -t lint"
+    "lint": "nx run-many -t lint",
+    "fmt": "nx run-many -t fmt",
+    "compose:up": "nx run workspace:compose-up",
+    "compose:postgres": "nx run workspace:compose-postgres",
+    "compose:down": "nx run workspace:compose-down",
+    "g:backend-lib": "./tools/scripts/init-backend-lib.sh"
   },
   "devDependencies": {
     "nx": "^21.4.0"

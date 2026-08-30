@@ -31,3 +31,7 @@ Follow **accepted** ADRs for package manager, orchestrator, and directory layout
 - Do not invent conflicting top-level trees when an accepted layout ADR already defines one
 
 Prefer concrete paths under those ADRs (e.g. `apps/backend/<service>/…`, `libs/backend/<package>/…`).
+
+## Cursor rules (file-type conventions)
+
+For a given **file type / concern**, keep **one** rule file under `.cursor/rules/` that holds **all** conventions for it (do not split into several overlapping rules). Examples: `python-tests.mdc`, `python-imports.mdc`.
